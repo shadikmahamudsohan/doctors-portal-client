@@ -12,7 +12,7 @@ const AvailableAppointments = ({ date }) => {
 
 
     const { data: services, isLoading, refetch } = useQuery(['available', formattedDate], () =>
-        fetch(`http://localhost:5000/available?date=${formattedDate}`)
+        fetch(`https://floating-everglades-70004.herokuapp.com/available?date=${formattedDate}`)
             .then(res => res.json())
     )
     if (isLoading) {

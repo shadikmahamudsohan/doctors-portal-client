@@ -20,7 +20,7 @@ const BookingModal = ({ treatment, date, setTreatment, refetch }) => {
             phone: event.target.phone.value,
         }
 
-        fetch('http://localhost:5000/booking', {
+        fetch('https://floating-everglades-70004.herokuapp.com/booking', {
             method: 'POST',
             headers: {
                 'content-type': 'application/json'
