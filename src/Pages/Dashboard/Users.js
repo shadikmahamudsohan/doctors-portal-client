@@ -15,7 +15,6 @@ const Users = () => {
     if (isLoading) {
         return <Loading></Loading>
     }
-    console.log(users);
     if (users.message === 'Forbidden access') {
         signOut(auth);
     }
