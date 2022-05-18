@@ -1,35 +1,34 @@
 import { signOut } from 'firebase/auth';
-import React from 'react';
+import React, { useState } from 'react';
 import { useQuery } from 'react-query';
 import { useNavigate } from 'react-router-dom';
 import auth from '../../firebase.init';
-import Loading from '../../Pages/Shared/Loading'
+import Loading from '../../Pages/Shared/Loading';
+import DeleteConfirmModal from './DeleteConfirmModal';
 import DoctorRow from './DoctorRow';
 
 const ManageDoctors = () => {
-    const navigate = useNavigate()
-    const { data: doctors, isLoading, error } = useQuery('doctors', () => fetch('http://localhost:5000/doctor', {
+    const [deletingDoctor, setDeletingDoctor] = useState(null);
+    const navigate = useNavigate();
+    const { data: doctors, isLoading, refetch } = useQuery('doctors', () => fetch('https://floating-everglades-70004.herokuapp.com/doctor', {
         headers: {
             authorization: `Bearer ${localStorage.getItem('accessToken')}`
         },
     }).then(res => {
         if (res.status === 403) {
-            signOut(auth)
-            navigate('/login')
+            signOut(auth);
+            navigate('/login');
         }
-        return res.json()
-    }))
+        return res.json();
+    }));
     if (isLoading) {
-        return <Loading></Loading>
+        return <Loading></Loading>;
     }
-    if (doctors) {
-        console.log(doctors);
-    };
     return (
         <div>
             <h2 className="text-2xl">Manage Doctors: {doctors.length}</h2>
-            <div class="overflow-x-auto">
-                <table class="table w-full">
+            <div className="overflow-x-auto">
+                <table className="table w-full">
                     <thead>
                         <tr>
                             <th></th>
@@ -45,11 +44,18 @@ const ManageDoctors = () => {
                                 key={doctor._id}
                                 doctor={doctor}
                                 index={index}
+                                refetch={refetch}
+                                setDeletingDoctor={setDeletingDoctor}
                             ></DoctorRow>)
                         }
                     </tbody>
                 </table>
             </div>
+            {deletingDoctor && <DeleteConfirmModal
+                deletingDoctor={deletingDoctor}
+                refetch={refetch}
+                setDeletingDoctor={setDeletingDoctor}
+            />}
         </div>
     );
 };

@@ -3,7 +3,8 @@ import Loading from '../Shared/Loading';
 
 const InfoCard = ({ img, cardTitle, bgClass }) => {
     if (!bgClass) {
-        return <Loading></Loading>
+        console.log(!bgClass);
+        return <Loading></Loading>;
     }
     return (
         <div className={`card py-3 lg:card-side bg-base-100 shadow-xl ${bgClass}`}>
@@ -14,6 +15,6 @@ const InfoCard = ({ img, cardTitle, bgClass }) => {
             </div>
         </div>
     );
-}
+};
 
 export default InfoCard;

@@ -7,9 +7,9 @@ import Loading from '../Shared/Loading';
 const AddDoctor = () => {
     const { register, formState: { errors }, handleSubmit, reset } = useForm();
 
-    const { data: services, isLoading } = useQuery('services', () => fetch(`http://localhost:5000/service`).then(res => res.json()))
+    const { data: services, isLoading } = useQuery('services', () => fetch(`https://floating-everglades-70004.herokuapp.com/service`).then(res => res.json()));
 
-    const imageStorageKey = '622c187076394b5238e64af64ad74a44'
+    const imageStorageKey = '622c187076394b5238e64af64ad74a44';
     /**
        * 3 ways to store images.
        * 1. Third party storage // Free open public storage is ok for Practice project.
@@ -37,9 +37,9 @@ const AddDoctor = () => {
                         email: data.email,
                         specialty: data.specialty,
                         img: img
-                    }
+                    };
                     // send to your database
-                    fetch('http://localhost:5000/doctor', {
+                    fetch('https://floating-everglades-70004.herokuapp.com/doctor', {
                         method: 'POST',
                         headers: {
                             'content-type': 'application/json',
@@ -50,33 +50,32 @@ const AddDoctor = () => {
                         .then(res => res.json())
                         .then(inserted => {
                             if (inserted.insertedId) {
-                                toast.success('Doctor added successfully')
-                                reset()
+                                toast.success('Doctor added successfully');
+                                reset();
                             }
                             else {
-                                toast.error('Failed to add the doctor')
+                                toast.error('Failed to add the doctor');
                             }
-                        })
+                        });
                 }
-            })
-    }
+            });
+    };
     if (isLoading) {
-        return <Loading></Loading>
+        return <Loading></Loading>;
     }
 
     return (
         <div>
             <h2 className="text-2xl">Add a New Doctor</h2>
-            <form onSubmit={handleSubmit(onSubmit)}>
-
-                <div className="form-control w-full max-w-xs">
+            <form className='mx-auto' onSubmit={handleSubmit(onSubmit)}>
+                <div className="form-control w-full lg:max-w-xl md:max-w-full">
                     <label className="label">
                         <span className="label-text">Name</span>
                     </label>
                     <input
                         type="text"
                         placeholder="Your Name"
-                        className="input input-bordered w-full max-w-xs"
+                        className="input input-bordered w-full md:max-w-sm sm:max-w-full"
                         {...register("name", {
                             required: {
                                 value: true,
@@ -90,14 +89,14 @@ const AddDoctor = () => {
                 </div>
 
 
-                <div className="form-control w-full max-w-xs">
+                <div className="form-control w-full md:max-w-sm sm:max-w-full">
                     <label className="label">
                         <span className="label-text">Email</span>
                     </label>
                     <input
                         type="email"
                         placeholder="Your Email"
-                        className="input input-bordered w-full max-w-xs"
+                        className="input input-bordered w-full md:max-w-sm sm:max-w-full"
                         {...register("email", {
                             required: {
                                 value: true,
@@ -114,11 +113,11 @@ const AddDoctor = () => {
                         {errors?.email?.type === 'pattern' && <span className="label-text-alt text-red-500">{errors.email.message}</span>}
                     </label>
                 </div>
-                <div className="form-control w-full max-w-xs">
+                <div className="form-control w-full md:max-w-sm sm:max-w-full">
                     <label className="label">
                         <span className="label-text">Specialty</span>
                     </label>
-                    <select {...register('specialty')} className="select w-full max-w-xs input-bordered">
+                    <select {...register('specialty')} className="select w-full md:max-w-sm sm:max-w-full input-bordered">
                         {
                             services.map(service => <option
                                 key={service._id}
@@ -127,13 +126,13 @@ const AddDoctor = () => {
                         }
                     </select>
                 </div>
-                <div className="form-control w-full max-w-xs">
+                <div className="form-control w-full md:max-w-sm sm:max-w-full">
                     <label className="label">
                         <span className="label-text">Photo</span>
                     </label>
                     <input
                         type="file"
-                        className="input input-bordered w-full max-w-xs"
+                        className="input input-bordered w-full md:max-w-sm sm:max-w-full"
                         {...register("image", {
                             required: {
                                 value: true,
@@ -146,7 +145,7 @@ const AddDoctor = () => {
                     </label>
                 </div>
 
-                <input className='btn w-full max-w-xs text-white' type="submit" value="Add" />
+                <input className='btn w-full md:max-w-sm sm:max-w-full text-white' type="submit" value="Add" />
             </form>
         </div>
     );
